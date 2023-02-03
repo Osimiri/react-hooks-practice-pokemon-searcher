@@ -15,7 +15,19 @@ fetch ('http://localhost:3001/pokemon')
 .then(pokeData => setPokeData(pokeData))
 },[])
 
-const pokemonToRender = pokeData;
+
+const [search, setSearch] = useState("")
+
+const pokemonToRender = pokeData.filter(pokemon => {
+  if (search === ""){
+    return true;
+  }
+  return (pokemon.name.toLowerCase().includes(search.toLowerCase())) // from lecture 
+} );
+
+function handleChange(e) {
+  setSearch(e.target.value)
+}
 
   return (
     <Container>
@@ -23,9 +35,9 @@ const pokemonToRender = pokeData;
       <br />
       <PokemonForm />
       <br />
-      <Search />
+      <Search handleChange={handleChange} />
       <br />
-      <PokemonCollection pokeData = {pokeData}/>
+      <PokemonCollection pokemonToRender ={pokemonToRender}/>
     </Container>
   );
 }
